@@ -1,0 +1,2 @@
+class PostPetsController < ApplicationController
+end

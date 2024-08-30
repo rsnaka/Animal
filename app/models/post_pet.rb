@@ -1,0 +1,2 @@
+class PostPet < ApplicationRecord
+end
