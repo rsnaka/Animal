@@ -25,17 +25,28 @@
             <li class="nav-item <%= request.path_info == about_path ? "active" : "" %>">
               <%= link_to "About", about_path, class: "nav-link" %>
             </li>
-            <li class="nav-item <%= request.path_info == about_path ? "active" : "" %>">
-              <%= link_to "My page", users_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item <%= request.path_info == about_path ? "active" : "" %>">
-              <%= link_to "Post", new_post_path, class: "nav-link" %>
+            <% if user_signed_in? %>
+              <li class="nav-item <%= request.path_info == user_path(current_user) ? "active" : "" %>">
+                <%= link_to "My page", user_path(current_user), class: "nav-link" %>
+              </li>
+            <% end %>
+            <li class="nav-item <%= request.path_info == posts_path ? "active" : "" %>">
+              <%= link_to "Post", posts_path, class: "nav-link" %>
             </li>
           </ul>
         </div>
       </nav>
     </header>
     <main class="container">
+      <% if flash.present? %>
+        <div class="row">
+          <div class="col-sm-12">
+            <% flash.each do |key, value| %>
+              <p><%= value %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
     <footer>
