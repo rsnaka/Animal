@@ -1,9 +1,9 @@
 <h1>my page</h1>
-<%= @user.email %>
-<%= @user.name %>
-<%= @user.animal name %>
-<%= @user.animal temper %>
-<%= @user.animal.weight %>
-<% if @user == current_user %>
-  <%= link_to "Edit", edit_user_registration_path %>
-<% end %>
+  <div>
+    <p><%= @user.name %></p>
+    <p><%= @user.email %></p>
+    
+    <% if @user == current_user %>
+      <%= link_to "Edit", edit_user_registration_path %>
+    <% end %>
+  </div>

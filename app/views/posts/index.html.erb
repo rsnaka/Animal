@@ -1,0 +1,9 @@
+<% @new_post.each do |new_post| %>
+  <div>
+    <%= image_tag new_post.get_image %>
+    <p>投稿ユーザー画像：<%= image_tag '20200809_133600.jpg' %></p>
+    <p>Title：<%= new_post.title %></p>
+    <p>Post Content：<%= new_post.post_content %></p>
+    <p>ユーザーネーム：<%= new_post.user.name %></p>
+  </div>
+<% end %>
