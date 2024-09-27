@@ -7,22 +7,26 @@ class PostsController < ApplicationController
   def create
     @new_post = Post.new(post_params)
     @new_post.user_id = current_user.id
-    @new_post.save
-    redirect_to post_images_path
+    if @new_post.save
+      redirect_to posts_path
+    else
+      render :new
+    end
   end
 
   def index
-    @posts = Post.index
+    @posts = Post.all
   end
 
   def show
+    @post = Post.all
   end
 
   # 投稿データのストロングパラメータ
   private
 
-  def posts
-    params.require(:new_posts).permit(:post_content, :image)
+  def post_params
+    params.require(:post).permit(:title, :body, :image)
   end
 
 end
