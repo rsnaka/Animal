@@ -22,11 +22,26 @@ class PostsController < ApplicationController
     @post = Post.all
   end
 
+  def edit
+    @edit_post = Post.find(params[:id])
+  end
+
+  def update
+    post = Post.find(params[:id])
+    post.update(post_params)
+    redirect_to post_path(post.id)
+  end
+
+  def destroy
+    post = Post.find(params[:id])  # データ（レコード）を1件取得
+    post.destroy  # データ（レコード）を削除
+    redirect_to '/posts'  # 投稿一覧画面へリダイレクト
+  end
+
   # 投稿データのストロングパラメータ
   private
 
   def post_params
     params.require(:post).permit(:title, :body, :image)
   end
-
 end
