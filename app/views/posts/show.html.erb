@@ -1,12 +1,11 @@
-<% @post.each do |post| %>
-  <div>
-    <p>投稿ユーザー画像：<%= image_tag '20200809_133600.jpg', size: "48x48" %></p>
-    <p>Title：<%= post.title %></p>
-    <p>Body：<%= post.body %></p>
-    <p>ユーザーネーム：<%= post.user.name %></p>
-    <p>投稿日：<%= post.created_at.strftime('%Y/%m/%d') %></p>
-  </div>
-<% end %>
 
-<%= link_to "編集", edit_post_path(@post.id) %>
+  <div>
+    <p><%= image_tag '20200809_133600.jpg', class: "rounded-circle", size: "48x48" %> <%= @post.user.name %></p>
+    <%= image_tag @post.image, size: "100x100" %>
+    <p>Title：<%= @post.title %></p>
+    <p>Body：<%= @post.body %></p>
+    <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
+  </div>
+
+<%= link_to "編集", edit_post_path(@post.id) %> /
 <%= link_to "削除", post_path(@post.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>

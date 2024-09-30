@@ -1,8 +1,9 @@
 <h1>my page</h1>
   <div>
-    <p><%= @user.name %></p>
-    <p><%= @user.email %></p>
-    
+    <p><%= image_tag '20200809_133600.jpg', class: "rounded-circle", size: "150x150" %></p></p>
+    <p>Name: <%= @user.name %></p>
+    <p>Email Address: <%= @user.email %></p>
+
     <% if @user == current_user %>
       <%= link_to "Edit", edit_user_registration_path %>
     <% end %>
