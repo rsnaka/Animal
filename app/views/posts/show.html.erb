@@ -5,8 +5,28 @@
   <p>Title：<%= @post.title %></p>
   <p>Body：<%= @post.body %></p>
   <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
+  <% if current_user.likes.exists?(post_id: @post.id) %>
+    <%= link_to "いいね❤︎(#{@post.likes.count})", post_likes_path(@post), method: :delete %>
+  <% else %>
+    <%= link_to "いいね♡︎(#{@post.likes.count})", post_likes_path(@post), method: :post %>
+  <% end %>
 
-
+<div>
+  <p>コメント件数：<%= @post.comments.count %></p>
+  <% @post.comments.each do |comment| %>
+    <p><%= image_tag comment.user.get_profile_image(100,100) %></p>
+    <%= comment.user.name %>
+    <%= comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
+  <% end %>
+  <% if @post.user == current_user %>
+    <%= link_to "コメント削除", post_comment_path(@post), method: :delete %>
+  <% end %>
+</div>
+<div>
+  <%= form_with model: [@post] do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
   <% if @post.user == current_user %>
     <%= link_to "編集", edit_post_path(@post.id) %> /
     <%= link_to "削除", post_path(@post.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
