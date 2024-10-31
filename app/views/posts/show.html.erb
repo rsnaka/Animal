@@ -2,7 +2,7 @@
   <% if @post.user.image.attached? %>
     <%= image_tag @post.user.image, class: "rounded-circle", size: "48x48" %>
   <% end %>
-  <p><%= @post.user.name %></p>
+  <p><%= image_tag '20200809_133600.jpg', class: "rounded-circle", size: "48x48" %> <%= @post.user.name %></p>
   <%= image_tag @post.image, size: "100x100" %>
   <p>Title：<%= @post.title %></p>
   <p>Body：<%= @post.body %></p>
@@ -13,7 +13,7 @@
     <% else %>
       <%= link_to "いいね♡︎(#{@post.likes.count})", post_likes_path(@post), method: :post %>
     <% end %>
-    <% if @post.user == current_user %>
+    <% if @post. == current_user %>
       <%= link_to "編集", edit_post_path(@post.id) %> /
       <%= link_to "削除", post_path(@post.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
     <% end %>
@@ -35,4 +35,5 @@
     <%= f.text_area :body, rows: '5', placeholder: "コメントをここに" %>
     <%= f.submit "送信する" %>
   <% end %>
+
 </div>
