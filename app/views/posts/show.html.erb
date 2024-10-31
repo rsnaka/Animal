@@ -1,34 +1,38 @@
-
 <div>
-  <p><%= image_tag '20200809_133600.jpg', class: "rounded-circle", size: "48x48" %> <%= @post.user.name %></p>
+  <% if @post.user.image.attached? %>
+    <%= image_tag @post.user.image, class: "rounded-circle", size: "48x48" %>
+  <% end %>
+  <p><%= @post.user.name %></p>
   <%= image_tag @post.image, size: "100x100" %>
   <p>Title：<%= @post.title %></p>
   <p>Body：<%= @post.body %></p>
   <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
-  <% if current_user.likes.exists?(post_id: @post.id) %>
-    <%= link_to "いいね❤︎(#{@post.likes.count})", post_likes_path(@post), method: :delete %>
-  <% else %>
-    <%= link_to "いいね♡︎(#{@post.likes.count})", post_likes_path(@post), method: :post %>
-  <% end %>
-
-<div>
-  <p>コメント件数：<%= @post.comments.count %></p>
-  <% @post.comments.each do |comment| %>
-    <p><%= image_tag comment.user.get_profile_image(100,100) %></p>
-    <%= comment.user.name %>
-    <%= comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
-  <% end %>
-  <% if @post.user == current_user %>
-    <%= link_to "コメント削除", post_comment_path(@post), method: :delete %>
+  <% if user_signed_in? %>
+    <% if current_user.likes.exists?(post_id: @post.id) %>
+      <%= link_to "いいね❤︎(#{@post.likes.count})", post_likes_path(@post), method: :delete %>
+    <% else %>
+      <%= link_to "いいね♡︎(#{@post.likes.count})", post_likes_path(@post), method: :post %>
+    <% end %>
+    <% if @post.user == current_user %>
+      <%= link_to "編集", edit_post_path(@post.id) %> /
+      <%= link_to "削除", post_path(@post.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+    <% end %>
   <% end %>
 </div>
 <div>
-  <%= form_with model: [@post] do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
+  <p>コメント件数：<%= @post.comments.count %></p>
+  <% @post.comments.each do |comment| %>
+    <%= image_tag '20200809_133600.jpg', class: "rounded-circle", size: "48x48" %>
+    <%= comment.user.name %>
+    <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.body %>
+    <% if comment.user == current_user %>
+      <%= link_to "コメント削除", post_comment_path(@post, comment), method: :delete %>
+    <% end %>
   <% end %>
-  <% if @post.user == current_user %>
-    <%= link_to "編集", edit_post_path(@post.id) %> /
-    <%= link_to "削除", post_path(@post.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+</div>
+<div>
+  <%= form_with model: [@post, @comment] do |f| %>
+    <%= f.text_area :body, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
   <% end %>
 </div>
